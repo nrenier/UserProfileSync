@@ -1,0 +1,58 @@
+ => ERROR [app  7/15] RUN echo "Building client with default config..." && npx vite build                                                           1.4s
+------
+ > [app  7/15] RUN echo "Building client with default config..." && npx vite build:
+0.285 Building client with default config...
+0.911 vite v5.4.19 building for production...
+1.298 transforming...
+1.341 ✓ 5 modules transformed.
+1.342 x Build failed in 412ms
+1.342 error during build:
+1.342 [vite:esbuild] Transform failed with 4 errors:
+1.342 /app/client/src/pages/suk-reports.jsx:15:2: ERROR: The symbol "FileText" has already been declared
+1.342 /app/client/src/pages/suk-reports.jsx:16:2: ERROR: The symbol "Download" has already been declared
+1.342 /app/client/src/pages/suk-reports.jsx:17:2: ERROR: The symbol "Clock" has already been declared
+1.342 /app/client/src/pages/suk-reports.jsx:20:2: ERROR: The symbol "CheckCircle" has already been declared
+1.342 file: /app/client/src/pages/suk-reports.jsx:15:2
+1.342
+1.342 The symbol "FileText" has already been declared
+1.342 13 |  import { isUnauthorizedError } from "@/lib/authUtils";
+1.342 14 |  import {
+1.342 15 |    FileText,
+1.342    |    ^
+1.342 16 |    Download,
+1.342 17 |    Clock,
+1.342
+1.342 The symbol "Download" has already been declared
+1.342 14 |  import {
+1.342 15 |    FileText,
+1.342 16 |    Download,
+1.342    |    ^
+1.342 17 |    Clock,
+1.342 18 |    Loader2,
+1.342
+1.342 The symbol "Clock" has already been declared
+1.342 15 |    FileText,
+1.342 16 |    Download,
+1.342 17 |    Clock,
+1.342    |    ^
+1.342 18 |    Loader2,
+1.342 19 |    AlertCircle,
+1.342
+1.342 The symbol "CheckCircle" has already been declared
+1.342 18 |    Loader2,
+1.342 19 |    AlertCircle,
+1.342 20 |    CheckCircle
+1.342    |    ^
+1.342 21 |  } from "lucide-react";
+1.342 22 |
+1.342
+1.342     at failureErrorWithLog (/app/node_modules/vite/node_modules/esbuild/lib/main.js:1472:15)
+1.342     at /app/node_modules/vite/node_modules/esbuild/lib/main.js:755:50
+1.342     at responseCallbacks.<computed> (/app/node_modules/vite/node_modules/esbuild/lib/main.js:622:9)
+1.342     at handleIncomingPacket (/app/node_modules/vite/node_modules/esbuild/lib/main.js:677:12)
+1.342     at Socket.readFromStdout (/app/node_modules/vite/node_modules/esbuild/lib/main.js:600:7)
+1.342     at Socket.emit (node:events:524:28)
+1.342     at addChunk (node:internal/streams/readable:561:12)
+1.342     at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+1.342     at Readable.push (node:internal/streams/readable:392:5)
+1.342     at Pipe.onStreamRead (node:internal/stream_base_commons:191:23)
