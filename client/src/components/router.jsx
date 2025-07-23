@@ -28,7 +28,8 @@ export default function AppRouter() {
       <Router>
         <Switch>
           <Route path="/auth" component={AuthPage} />
-          <Route component={Landing} />
+          <Route path="/" component={Landing} /> {/* Changed to a route */}
+          <Route component={NotFound} />
         </Switch>
       </Router>
     );
