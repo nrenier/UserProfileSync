@@ -1,3 +1,4 @@
+
 import { Router, Route, Switch, useLocation } from "wouter";
 import { useAuth } from "../hooks/useAuth";
 import { Dashboard } from "../pages/dashboard";
@@ -19,7 +20,11 @@ export default function AppRouter() {
   }, [user, location, setLocation]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
   }
 
   // If user is not authenticated, show landing page or auth page
@@ -28,7 +33,7 @@ export default function AppRouter() {
       <Router>
         <Switch>
           <Route path="/auth" component={AuthPage} />
-          <Route path="/" component={Landing} /> {/* Changed to a route */}
+          <Route path="/" component={Landing} />
           <Route component={NotFound} />
         </Switch>
       </Router>

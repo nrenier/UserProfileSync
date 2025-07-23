@@ -1,4 +1,6 @@
 import express from "express";
+import type { Express } from "express";
+import path from "path";
 import morgan from "morgan";
 import compression from "compression";
 import cors from "cors";
