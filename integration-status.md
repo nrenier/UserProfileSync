@@ -90,3 +90,10 @@ L'applicazione è configurata per:
 - `build-scripts.js`: Build separato per client e server con esclusioni corrette
 - Esclude Vite, plugin Vite, e altre dipendenze di sviluppo dal bundle server
 - Risolve ERR_MODULE_NOT_FOUND per Vite in produzione
+
+### Fix Finale Docker Build
+✅ **Completamente Risolto**: 
+- Creato `server/vite-dev.ts` separato per import Vite solo in sviluppo
+- Modificato `server/index.ts` per import dinamico condizionale 
+- Build script ora produce bundle pulito senza riferimenti Vite
+- Container Docker dovrebbe ora avviarsi correttamente in produzione

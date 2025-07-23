@@ -1,6 +1,25 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
-import { serveStatic, log } from "./vite";
+// Import log function and production static serving
+export function log(message: string, source = "express") {
+  const formattedTime = new Date().toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit", 
+    second: "2-digit",
+    hour12: true,
+  });
+  console.log(`${formattedTime} [${source}] ${message}`);
+}
+
+async function serveStatic(app: any) {
+  if (process.env.NODE_ENV === "production") {
+    const path = await import("path");
+    app.use(express.static(path.default.resolve("dist/public")));
+    app.use("*", (_req: any, res: any) => {
+      res.sendFile(path.default.resolve("dist/public/index.html"));
+    });
+  }
+}
 
 const app = express();
 app.use(express.json());
@@ -51,10 +70,10 @@ app.use((req, res, next) => {
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
   if (app.get("env") === "development") {
-    const { setupVite } = await import("./vite");
+    const { setupVite } = await import("./vite-dev");
     await setupVite(app, server);
   } else {
-    serveStatic(app);
+    await serveStatic(app);
   }
 
   // ALWAYS serve the app on the port specified in the environment variable PORT
