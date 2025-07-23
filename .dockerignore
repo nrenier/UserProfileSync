@@ -12,3 +12,5 @@ coverage
 *.log
 uploads/*
 !uploads/.gitkeep
+server/vite-dev.ts
+build-scripts.js
