@@ -1,0 +1,36 @@
+analytics_app  | Error initializing admin user: error: relation "users" does not exist
+analytics_app  |     at /app/node_modules/pg-pool/index.js:45:11
+analytics_app  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+analytics_app  |     at async file:///app/node_modules/drizzle-orm/node-postgres/session.js:83:22
+analytics_app  |     at async DatabaseStorage.getUserByUsername (file:///app/dist/index.js:103:20)
+analytics_app  |     at async initializeAdmin (file:///app/dist/index.js:156:25)
+analytics_app  |     at async registerRoutes (file:///app/dist/index.js:523:3)
+analytics_app  |     at async file:///app/dist/index.js:739:18 {
+analytics_app  |   length: 105,
+analytics_app  |   severity: 'ERROR',
+analytics_app  |   code: '42P01',
+analytics_app  |   detail: undefined,
+analytics_app  |   hint: undefined,
+analytics_app  |   position: '114',
+analytics_app  |   internalPosition: undefined,
+analytics_app  |   internalQuery: undefined,
+analytics_app  |   where: undefined,
+analytics_app  |   schema: undefined,
+analytics_app  |   table: undefined,
+analytics_app  |   column: undefined,
+analytics_app  |   dataType: undefined,
+analytics_app  |   constraint: undefined,
+analytics_app  |   file: 'parse_relation.c',
+analytics_app  |   line: '1392',
+analytics_app  |   routine: 'parserOpenTable'
+analytics_app  | }
+analytics_app  | 1:03:51 PM [express] serving on port 3000
+analytics_app  | 1:04:33 PM [express] GET /api/user 401 in 3ms
+analytics_app  | 1:04:35 PM [express] GET /api/user 401 in 0ms
+analytics_app  | 1:04:44 PM [express] POST /api/login 500 in 15ms :: {"message":"relation \"users\" does not exist"}
+analytics_app  | error: relation "users" does not exist
+analytics_app  |     at /app/node_modules/pg-pool/index.js:45:11
+analytics_app  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+analytics_app  |     at async file:///app/node_modules/drizzle-orm/node-postgres/session.js:83:22
+analytics_app  |     at async DatabaseStorage.getUserByUsername (file:///app/dist/index.js:103:20)
+analytics_app  |     at async Strategy._verify (file:///app/dist/index.js:197:22)
