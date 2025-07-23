@@ -1,70 +1,68 @@
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient } from '@tanstack/react-query';
 
+// Get the current URL to determine the API base
+const getApiBase = () => {
+  if (typeof window === 'undefined') return '';
+
+  // In development, use the dev server port (5000)
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return `${window.location.protocol}//${window.location.hostname}:5000`;
+  }
+
+  // In production, use the same origin
+  return window.location.origin;
+};
+
+// Create a fetch wrapper that includes credentials
+const fetchWithCredentials = async (url, options = {}) => {
+  const apiBase = getApiBase();
+  const fullUrl = url.startsWith('http') ? url : `${apiBase}${url}`;
+
+  const response = await fetch(fullUrl, {
+    ...options,
+    credentials: 'include', // Include cookies for session management
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`${response.status}: ${errorText || response.statusText}`);
+  }
+
+  // Handle empty responses
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    return response.json();
+  }
+
+  return response.text();
+};
+
+// Create QueryClient with custom fetch
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      queryFn: async ({ queryKey }) => {
-        const url = queryKey[0];
-        const response = await fetch(url, {
-          credentials: 'include'
-        });
-        
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`${response.status}: ${response.statusText}${errorText ? `. ${errorText}` : ''}`);
-        }
-        
-        return response.json();
+      queryFn: ({ queryKey }) => {
+        const [url] = queryKey;
+        return fetchWithCredentials(url);
       },
+      retry: (failureCount, error) => {
+        // Don't retry on authentication errors
+        if (error.message.includes('401') || error.message.includes('403')) {
+          return false;
+        }
+        return failureCount < 3;
+      },
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes (was cacheTime)
+    },
+    mutations: {
+      mutationFn: ({ url, options }) => fetchWithCredentials(url, options),
     },
   },
 });
 
-export async function apiRequest(method, url, data) {
-  const config = {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include'
-  };
-
-  if (data) {
-    config.body = JSON.stringify(data);
-  }
-
-  const response = await fetch(url, config);
-  
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`${response.status}: ${response.statusText}${errorText ? `. ${errorText}` : ''}`);
-  }
-
-  return response;
-}
-
-export function getQueryFn(options = {}) {
-  return async ({ queryKey }) => {
-    const url = queryKey[0];
-    try {
-      const response = await fetch(url, {
-        credentials: 'include'
-      });
-      
-      if (!response.ok) {
-        if (response.status === 401 && options.on401 === "returnNull") {
-          return null;
-        }
-        const errorText = await response.text();
-        throw new Error(`${response.status}: ${response.statusText}${errorText ? `. ${errorText}` : ''}`);
-      }
-      
-      return response.json();
-    } catch (error) {
-      if (options.on401 === "returnNull" && error.message.includes('401')) {
-        return null;
-      }
-      throw error;
-    }
-  };
-}
+export { fetchWithCredentials };

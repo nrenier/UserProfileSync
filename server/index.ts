@@ -1,95 +1,34 @@
-import express, { type Request, Response, NextFunction } from "express";
+import express from "express";
+import morgan from "morgan";
+import compression from "compression";
 import { registerRoutes } from "./routes";
-// Import log function and production static serving
-export function log(message: string, source = "express") {
-  const formattedTime = new Date().toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit", 
-    second: "2-digit",
-    hour12: true,
-  });
-  console.log(`${formattedTime} [${source}] ${message}`);
-}
-
-async function serveStatic(app: any) {
-  if (process.env.NODE_ENV === "production") {
-    const path = await import("path");
-    app.use(express.static(path.default.resolve("dist/public")));
-    app.use("*", (_req: any, res: any) => {
-      res.sendFile(path.default.resolve("dist/public/index.html"));
-    });
-  }
-}
 
 const app = express();
+
+// Basic middleware
+app.use(compression());
+app.use(morgan("tiny"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-  const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
+// Register routes (includes auth setup)
+const httpServer = await registerRoutes(app);
 
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
+// Serve static files in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("dist/public"));
 
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
-    }
+  // Serve the React app for all non-API routes
+  app.get("*", (req, res) => {
+    res.sendFile("index.html", { root: "dist/public" });
   });
+} else {
+  // In development, Vite handles the frontend
+  const viteDevServer = await import("./vite-dev").then((m) => m.createViteDevServer());
+  app.use(viteDevServer.ssrFixStacktrace);
+}
 
-  next();
+const port = Number(process.env.PORT) || 5000;
+httpServer.listen(port, "0.0.0.0", () => {
+  console.log(`${new Date().toLocaleTimeString()} [express] serving on port ${port}`);
 });
-
-(async () => {
-  const server = await registerRoutes(app);
-
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-
-    res.status(status).json({ message });
-    throw err;
-  });
-
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    try {
-      const { setupVite } = await import("./vite-dev");
-      await setupVite(app, server);
-    } catch (error) {
-      console.log("Vite setup failed, falling back to static serving");
-      await serveStatic(app);
-    }
-  } else {
-    await serveStatic(app);
-  }
-
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // For Docker production, use port 3000. For development, use 5000.
-  // this serves both the API and the client.
-  const port = parseInt(process.env.PORT || (process.env.NODE_ENV === 'production' ? '3000' : '5000'), 10);
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
-})();
