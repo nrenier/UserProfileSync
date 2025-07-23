@@ -2,6 +2,11 @@
 
 ## Configurazione Completata ✅
 
+### Docker Compose Aggiornato
+- Rimossi servizi Neo4j e n8n per evitare conflitti con container esistenti
+- App configurata per connettersi ai container esterni via `host.docker.internal`
+- Mantiene solo PostgreSQL per l'autenticazione dell'applicazione
+
 ### File .env Aggiornato
 - `NEO4J_URI=bolt://localhost:7687`
 - `NEO4J_USERNAME=neo4j`
