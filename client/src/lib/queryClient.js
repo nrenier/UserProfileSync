@@ -65,4 +65,36 @@ export const queryClient = new QueryClient({
   },
 });
 
+// Helper function for queries with custom error handling
+export const getQueryFn = (options = {}) => {
+  return async ({ queryKey }) => {
+    const [url] = queryKey;
+    try {
+      return await fetchWithCredentials(url);
+    } catch (error) {
+      if (options.on401 === 'returnNull' && error.message.includes('401')) {
+        return null;
+      }
+      throw error;
+    }
+  };
+};
+
+// API request helper function
+export const apiRequest = async (method, url, data) => {
+  const options = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  };
+
+  if (data) {
+    options.body = JSON.stringify(data);
+  }
+
+  return fetch(url, options);
+};
+
 export { fetchWithCredentials };
