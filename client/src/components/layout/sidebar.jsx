@@ -1,10 +1,9 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "../../lib/utils";
-import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { BarChart3, FileText, LogOut, User } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
-import { Button } from "@/components/ui/button";
-import { AvatarImage } from "@/components/ui/avatar";
+import { Button } from "../ui/button";
 import { 
   Building2, 
   PieChart, 
@@ -68,6 +67,7 @@ export function Sidebar({ className }) {
               <AvatarFallback>
                 <User className="h-5 w-5" />
               </AvatarFallback>
+              <AvatarImage />
             </Avatar>
             <div className="ml-3 flex-1">
               <p className="text-sm font-medium text-gray-800">
