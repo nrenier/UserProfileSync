@@ -10,6 +10,8 @@ The frontend is built with JavaScript (JSX) without TypeScript, as requested by 
 
 Preferred communication style: Simple, everyday language.
 Frontend requirement: JavaScript/JSX only, no TypeScript code.
+Authentication system: Local PostgreSQL authentication (username/password) instead of Replit Auth.
+User roles: Admin and user roles with automatic admin user creation.
 
 ## System Architecture
 
@@ -32,10 +34,11 @@ The application follows a modern full-stack architecture with clear separation b
 ## Key Components
 
 ### Authentication System
-- Uses Replit's OpenID Connect (OIDC) for user authentication
+- Uses local PostgreSQL authentication with username/password
 - Session storage in PostgreSQL using connect-pg-simple
-- Mandatory user and session tables for Replit Auth compatibility
-- Role-based access control (admin/user roles)
+- User registration and login with role-based access control
+- Automatic admin user creation (username: admin, password: admin123)
+- JWT session management with passport-local strategy
 
 ### Database Layer
 - **Primary Database**: PostgreSQL with Drizzle ORM

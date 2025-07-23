@@ -66,6 +66,7 @@ export default function Sidebar({ className }) {
         <div className="px-4 py-4 border-t border-gray-200">
           <div className="flex items-center">
             <Avatar className="h-10 w-10">
+              <AvatarImage src={user?.profileImageUrl || ''} />
               <AvatarFallback>
                 <User className="h-5 w-5" />
               </AvatarFallback>

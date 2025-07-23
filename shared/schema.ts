@@ -26,12 +26,13 @@ export const sessions = pgTable(
 // User storage table.
 // (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.
 export const users = pgTable("users", {
-  id: varchar("id").primaryKey().notNull(),
-  email: varchar("email").unique(),
-  firstName: varchar("first_name"),
-  lastName: varchar("last_name"),
-  profileImageUrl: varchar("profile_image_url"),
-  role: varchar("role").notNull().default("user"), // admin or user
+  id: serial("id").primaryKey(),
+  username: varchar("username", { length: 255 }).unique().notNull(),
+  email: varchar("email", { length: 255 }).unique(),
+  password: varchar("password", { length: 255 }).notNull(),
+  firstName: varchar("first_name", { length: 255 }),
+  lastName: varchar("last_name", { length: 255 }),
+  role: varchar("role", { length: 50 }).notNull().default("user"), // admin or user
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -46,12 +47,18 @@ export const reports = pgTable("reports", {
   fileName: varchar("file_name"),
   filePath: varchar("file_path"),
   workflowId: varchar("workflow_id"),
-  userId: varchar("user_id").notNull(),
+  userId: integer("user_id").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export type UpsertUser = typeof users.$inferInsert;
+export const insertUserSchema = createInsertSchema(users).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
 export const insertReportSchema = createInsertSchema(reports).pick({

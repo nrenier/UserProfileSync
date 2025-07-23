@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./replitAuth";
+import { setupAuth, isAuthenticated, initializeAdmin } from "./auth";
 import { neo4jService } from "./services/neo4j";
 import { n8nService } from "./services/n8n";
 import { insertReportSchema } from "@shared/schema";
@@ -13,20 +13,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Initialize Neo4j connection
   await neo4jService.connect();
 
-  // Auth middleware
-  await setupAuth(app);
+  // Auth middleware setup
+  setupAuth(app);
 
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
+  // Initialize admin user
+  await initializeAdmin();
 
   // Dashboard data routes
   app.get('/api/dashboard/stats', isAuthenticated, async (req, res) => {
@@ -99,7 +90,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Reports routes
   app.get('/api/reports', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const reports = await storage.getReportsByUser(userId);
       res.json(reports);
     } catch (error) {
@@ -110,7 +101,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/reports/generate', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const validatedData = insertReportSchema.parse({
         ...req.body,
         userId
@@ -159,7 +150,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/reports/:id/download', isAuthenticated, async (req: any, res) => {
     try {
       const { id } = req.params;
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       
       const report = await storage.getReportById(parseInt(id));
       

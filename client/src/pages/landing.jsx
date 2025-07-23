@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BarChart3, Building2, FileText, Shield } from "lucide-react";
+import { useLocation } from "wouter";
 
 export default function Landing() {
+  const [, setLocation] = useLocation();
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">
       <div className="max-w-4xl mx-auto px-4">
@@ -16,7 +18,7 @@ export default function Landing() {
           </p>
           
           <Button 
-            onClick={() => window.location.href = '/api/login'}
+            onClick={() => setLocation('/auth')}
             size="lg"
             className="bg-white text-primary hover:bg-gray-100 font-semibold px-8 py-3"
           >
