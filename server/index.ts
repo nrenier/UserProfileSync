@@ -21,6 +21,12 @@ app.use((req, res, next) => {
 });
 
 // Register routes (includes auth setup)
+import { setupAuth, initializeAdmin } from "./auth";
+
+// Setup authentication
+// Setup local authentication only
+  setupAuth(app);
+
 const httpServer = await registerRoutes(app);
 
 // Serve static files in production

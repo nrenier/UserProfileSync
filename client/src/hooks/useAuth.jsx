@@ -20,9 +20,22 @@ export function AuthProvider({ children }) {
   });
 
   const loginMutation = useMutation({
-    mutationFn: async (credentials) => {
-      const res = await apiRequest("POST", "/api/login", credentials);
-      return await res.json();
+    mutationFn: async ({ username, password }) => {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Credenziali non valide');
+      }
+
+      return response.json();
     },
     onSuccess: (user) => {
       queryClient.setQueryData(["/api/user"], user);

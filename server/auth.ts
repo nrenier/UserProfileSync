@@ -59,7 +59,7 @@ export function setupAuth(app: Express) {
   });
 
   const sessionSettings: session.SessionOptions = {
-    secret: process.env.SESSION_SECRET || 'fallback-secret-key-development',
+    secret: process.env.SESSION_SECRET || 'fallback-secret-key-development-very-long-string',
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
@@ -70,6 +70,7 @@ export function setupAuth(app: Express) {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       sameSite: 'lax'
     },
+    name: 'local.session'
   };
 
   app.set("trust proxy", 1);
@@ -94,27 +95,22 @@ export function setupAuth(app: Express) {
 
   passport.serializeUser((user, done) => {
     console.log('Serializing user:', user.id);
-    done(null, user.id);
+    done(null, user.id.toString());
   });
   
-  passport.deserializeUser(async (id: any, done) => {
+  passport.deserializeUser(async (id: string, done) => {
     try {
       console.log('Deserializing user ID:', id, 'Type:', typeof id);
       
-      let userId: number;
-      if (typeof id === 'number') {
-        userId = id;
-      } else if (typeof id === 'string') {
-        userId = parseInt(id);
-        if (isNaN(userId)) {
-          return done(new Error('Invalid user ID format'));
-        }
-      } else {
-        return done(new Error('Invalid session data type'));
+      const userId = parseInt(id);
+      if (isNaN(userId)) {
+        console.log('Invalid user ID format:', id);
+        return done(null, false);
       }
       
       const user = await storage.getUser(userId);
       if (!user) {
+        console.log('User not found for ID:', userId);
         return done(null, false);
       }
       
