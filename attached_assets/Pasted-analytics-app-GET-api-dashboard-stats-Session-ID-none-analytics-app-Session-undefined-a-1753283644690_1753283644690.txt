@@ -1,0 +1,99 @@
+analytics_app  | GET /api/dashboard/stats - Session ID: none
+analytics_app  | Session: undefined
+analytics_app  | User: undefined
+analytics_app  | IsAuthenticated: function not available
+analytics_app  | GET /api/dashboard/sectors - Session ID: none
+analytics_app  | Session: undefined
+analytics_app  | User: undefined
+analytics_app  | IsAuthenticated: function not available
+analytics_app  | GET /api/dashboard/recent-reports - Session ID: none
+analytics_app  | Session: undefined
+analytics_app  | User: undefined
+analytics_app  | IsAuthenticated: function not available
+analytics_app  | GET /favicon.ico - Session ID: none
+analytics_app  | Session: undefined
+analytics_app  | User: undefined
+analytics_app  | IsAuthenticated: function not available
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | GET /api/dashboard/stats 304 - - 26.448 ms
+analytics_app  | GET /api/dashboard/sectors 304 - - 26.240 ms
+analytics_app  | GET /favicon.ico 304 - - 25.273 ms
+analytics_app  | GET /api/dashboard/recent-reports 304 - - 26.528 ms
+analytics_app  | GET /api/login - Session ID: none
+analytics_app  | Session: undefined
+analytics_app  | User: undefined
+analytics_app  | IsAuthenticated: function not available
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | GET /api/login 304 - - 3.678 ms
+analytics_app  | GET /assets/index-C_tIyg7p.js - Session ID: none
+analytics_app  | Session: undefined
+analytics_app  | User: undefined
+analytics_app  | IsAuthenticated: function not available
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | GET /assets/index-Chyf5lOX.css - Session ID: none
+analytics_app  | Session: undefined
+analytics_app  | User: undefined
+analytics_app  | IsAuthenticated: function not available
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | GET /assets/index-C_tIyg7p.js 304 - - 3.929 ms
+analytics_app  | GET /assets/index-Chyf5lOX.css 304 - - 2.378 ms
+analytics_app  | GET /api/user - Session ID: none
+analytics_app  | Session: undefined
+analytics_app  | User: undefined
+analytics_app  | IsAuthenticated: function not available
+analytics_app  | GET /favicon.ico - Session ID: none
+analytics_app  | Session: undefined
+analytics_app  | User: undefined
+analytics_app  | IsAuthenticated: function not available
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | GET /api/user - isAuthenticated: true
+analytics_app  | GET /api/user - user: {
+analytics_app  |   id: 1,
+analytics_app  |   username: 'admin',
+analytics_app  |   email: 'admin@company.com',
+analytics_app  |   password: 'b0fb2c55e0f3f4a4c91da91d954ca960ba24d82381ea5c5473c895ba314b643ac4110ed64a765fbe4e088ed034b201ecc1281ef4be79bab3c07723d1424e22da.baa7e48ab5660881f8cb8aa5efd16e62',
+analytics_app  |   firstName: 'System',
+analytics_app  |   lastName: 'Administrator',
+analytics_app  |   role: 'admin',
+analytics_app  |   createdAt: 2025-07-23T13:18:14.327Z,
+analytics_app  |   updatedAt: 2025-07-23T13:18:14.327Z
+analytics_app  | }
+analytics_app  | Returning user data: {
+analytics_app  |   id: 1,
+analytics_app  |   username: 'admin',
+analytics_app  |   email: 'admin@company.com',
+analytics_app  |   firstName: 'System',
+analytics_app  |   lastName: 'Administrator',
+analytics_app  |   role: 'admin'
+analytics_app  | }
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | Deserializing user ID: 1 Type: string
+analytics_app  | Successfully deserialized user: admin
+analytics_app  | GET /api/user 304 - - 2.389 ms
+analytics_app  | GET /favicon.ico 304 - - 3.221 ms
