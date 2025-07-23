@@ -22,8 +22,12 @@ export function AuthProvider({ children }) {
   const loginMutation = useMutation({
     mutationFn: async ({ username, password }) => {
       console.log('🔵 Starting login mutation for:', username);
-      
-      const response = await fetch(`${window.location.protocol}//${window.location.hostname}:5000/api/login`, {
+
+      const apiBaseUrl = window.location.hostname.includes('replit.dev') 
+        ? `${window.location.protocol}//${window.location.host}` 
+        : `${window.location.protocol}//${window.location.hostname}:3000`;
+
+      const response = await fetch(`${apiBaseUrl}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

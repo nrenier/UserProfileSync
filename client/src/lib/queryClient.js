@@ -41,7 +41,10 @@ const fetchWithCredentials = async (url, options = {}) => {
   return response.text();
 };
 
-const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:5000`;
+// In Replit, the server runs on the same port as the frontend
+const API_BASE_URL = window.location.hostname.includes('replit.dev') 
+  ? `${window.location.protocol}//${window.location.host}` 
+  : `${window.location.protocol}//${window.location.hostname}:3000`;
 
 // Create QueryClient with custom fetch
 export const queryClient = new QueryClient({
