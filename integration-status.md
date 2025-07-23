@@ -75,3 +75,12 @@ L'applicazione è configurata per:
 - `check-services.js`: Script per verificare le connessioni
 - `README-services.md`: Guida completa all'integrazione
 - `integration-status.md`: Questo file di stato
+
+## Fix Docker Build
+
+✅ **Problema Risolto**: Aggiornato Dockerfile per installare tutte le dipendenze (incluse quelle di sviluppo) durante il build, poi rimuovere quelle non necessarie per ridurre la dimensione dell'immagine.
+
+### Dockerfile Aggiornato
+- Installa tutte le dipendenze con `npm ci` (non solo production)
+- Esegue il build con Vite disponibile
+- Rimuove le dipendenze di sviluppo dopo il build per ottimizzare l'immagine
