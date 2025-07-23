@@ -1,0 +1,32 @@
+=> ERROR [app  7/15] RUN echo "Building client with default config..." && npx vite build                                                           3.6s
+------
+ > [app  7/15] RUN echo "Building client with default config..." && npx vite build:
+0.608 Building client with default config...
+1.245 vite v5.4.19 building for production...
+1.596 transforming...
+1.639 Browserslist: browsers data (caniuse-lite) is 9 months old. Please run:
+1.639   npx update-browserslist-db@latest
+1.639   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+3.350 ✓ 1724 modules transformed.
+3.352 x Build failed in 2.08s
+3.352 error during build:
+3.352 client/src/App.jsx (8:9): "Landing" is not exported by "client/src/pages/landing.jsx", imported by "client/src/App.jsx".
+3.352 file: /app/client/src/App.jsx:8:9
+3.352
+3.352  6: import { AuthProvider, useAuth } from "./hooks/useAuth";
+3.352  7: import { NotFound } from "./pages/not-found";
+3.352  8: import { Landing } from "./pages/landing";
+3.352              ^
+3.352  9: import { Dashboard } from "./pages/dashboard";
+3.352 10: import { SUKReports } from "./pages/suk-reports";
+3.352
+3.352     at getRollupError (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:396:41)
+3.352     at error (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:392:42)
+3.352     at Module.error (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:15588:16)
+3.352     at Module.traceVariable (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:16037:29)
+3.352     at ModuleScope.findVariable (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:13820:39)
+3.352     at FunctionScope.findVariable (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:5283:38)
+3.352     at FunctionBodyScope.findVariable (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:5283:38)
+3.352     at Identifier.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:5066:40)
+3.352     at Property.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2653:23)
+3.352     at ObjectExpression.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2649:28)
