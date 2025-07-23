@@ -94,7 +94,8 @@ L'applicazione è configurata per:
 ### Fix Finale Docker Build
 ✅ **Completamente Risolto**: 
 - Creato `server/vite-dev.ts` separato per import Vite solo in sviluppo
-- Modificato `server/index.ts` per import dinamico condizionale 
-- Build script usa `node` e `npx` per compatibilità Docker
-- Bundle ridotto a 24KB senza riferimenti Vite in produzione
+- Modificato `server/index.ts` con try/catch per import dinamico condizionale 
+- Dockerfile usa comandi build diretti con npx per compatibilità
+- File vite-dev.ts escluso dal container Docker via .dockerignore
+- Bundle con try/catch gestisce gracefully l'assenza di vite-dev in produzione
 - Container Docker ora si builda e avvia correttamente
