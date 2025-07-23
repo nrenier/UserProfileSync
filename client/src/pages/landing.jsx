@@ -16,14 +16,14 @@ export function Landing() {
           <p className="text-xl text-blue-100 mb-8">
             Access your business intelligence platform with comprehensive company data and automated reporting
           </p>
-          
-          <Button 
-            onClick={() => setLocation('/auth')}
-            size="lg"
-            className="bg-white text-primary hover:bg-gray-100 font-semibold px-8 py-3"
-          >
-            Sign In to Continue
-          </Button>
+
+          <Button
+                onClick={() => window.location.href = "/auth"}
+                size="lg"
+                className="bg-white text-primary hover:bg-gray-100 font-semibold px-8 py-3"
+              >
+                Sign In to Continue
+              </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
