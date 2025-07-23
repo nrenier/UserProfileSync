@@ -13,6 +13,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Initialize Neo4j connection
   await neo4jService.connect();
 
+  // Ensure database tables exist before setting up auth
+  try {
+    // Test database connection by attempting to run a simple query
+    await storage.testConnection();
+  } catch (error) {
+    console.error('Database connection failed. Please run database migrations:', error);
+    console.log('Run these commands to set up the database:');
+    console.log('npx drizzle-kit generate');
+    console.log('npx drizzle-kit migrate');
+    throw new Error('Database not properly initialized');
+  }
+
   // Auth middleware setup
   setupAuth(app);
 

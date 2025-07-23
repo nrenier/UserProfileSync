@@ -15,7 +15,7 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  
+
   // Report operations
   createReport(report: InsertReport): Promise<Report>;
   getReportsByUser(userId: number): Promise<Report[]>;
@@ -25,6 +25,17 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
+  async testConnection() {
+    // Test if the users table exists by running a simple query
+    try {
+      await db.select().from(users).limit(1);
+    } catch (error: any) {
+      if (error.code === '42P01') { // Table does not exist
+        throw new Error('Database tables not found. Please run migrations.');
+      }
+      throw error;
+    }
+  }
   // User operations for local authentication
 
   async getUser(id: number): Promise<User | undefined> {
