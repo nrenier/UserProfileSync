@@ -16,9 +16,10 @@ COPY . .
 # Create uploads directory
 RUN mkdir -p uploads
 
-# Build client and server separately with correct externals
-RUN echo "Building client..." && npx vite build --outDir dist/public
-RUN echo "Checking client build output..." && ls -la dist/public/
+# Build client - use default vite config which outputs to dist/public
+RUN echo "Building client with default config..." && npx vite build
+RUN echo "Checking vite build output..." && ls -la dist/public/ 2>/dev/null || echo "dist/public not found"
+RUN echo "Looking for build files anywhere..." && find . -maxdepth 3 -name "index.html" -type f 2>/dev/null || echo "No index.html found"
 RUN echo "Building server..." && npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist --external:vite --external:@vitejs/plugin-react --external:@replit/vite-plugin-cartographer --external:@replit/vite-plugin-runtime-error-modal --external:./vite-dev
 RUN echo "Checking server build output..." && ls -la dist/
 
