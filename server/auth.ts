@@ -162,39 +162,79 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/login", (req, res, next) => {
+    console.log('=== POST /api/login DEBUG ===');
+    console.log('Request body:', req.body);
+    console.log('Session ID before auth:', req.sessionID);
+    console.log('============================');
+    
     passport.authenticate("local", (err: any, user: any, info: any) => {
-      if (err) return next(err);
+      if (err) {
+        console.log('❌ Authentication error:', err);
+        return next(err);
+      }
       if (!user) {
+        console.log('❌ Invalid credentials');
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
+      console.log('✅ User authenticated:', user.username);
       req.login(user, (err: any) => {
-        if (err) return next(err);
-        res.status(200).json({ 
+        if (err) {
+          console.log('❌ Login error:', err);
+          return next(err);
+        }
+        
+        console.log('✅ Login successful, session ID:', req.sessionID);
+        console.log('Session after login:', JSON.stringify(req.session, null, 2));
+        
+        const response = { 
           id: user.id, 
           username: user.username, 
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
           role: user.role 
-        });
+        };
+        
+        console.log('✅ Sending response:', response);
+        res.status(200).json(response);
       });
     })(req, res, next);
   });
 
+  // Handle GET requests to /api/login (browser navigation)
+  app.get("/api/login", (req, res) => {
+    console.log('⚠️  GET /api/login - Browser navigated to API endpoint');
+    console.log('Redirecting to /auth page');
+    res.redirect('/auth');
+  });
+
   app.post("/api/logout", (req, res, next) => {
+    console.log('=== POST /api/logout ===');
+    console.log('Session before logout:', req.sessionID);
+    
     req.logout((err) => {
-      if (err) return next(err);
+      if (err) {
+        console.log('❌ Logout error:', err);
+        return next(err);
+      }
+      console.log('✅ Logout successful');
       res.sendStatus(200);
     });
   });
 
   app.get("/api/user", (req, res) => {
-    console.log('GET /api/user - isAuthenticated:', req.isAuthenticated());
-    console.log('GET /api/user - user:', req.user);
+    console.log('=== GET /api/user DEBUG ===');
+    console.log('Session ID:', req.sessionID);
+    console.log('Session object:', JSON.stringify(req.session, null, 2));
+    console.log('isAuthenticated():', req.isAuthenticated());
+    console.log('req.user:', req.user);
+    console.log('Cookie header:', req.headers.cookie);
+    console.log('User-Agent:', req.headers['user-agent']);
+    console.log('=========================');
     
     if (!req.isAuthenticated() || !req.user) {
-      console.log('User not authenticated, returning 401');
+      console.log('❌ User not authenticated, returning 401');
       return res.status(401).json({ message: "Not authenticated" });
     }
     
@@ -209,10 +249,10 @@ export function setupAuth(app: Express) {
         role: user.role 
       };
       
-      console.log('Returning user data:', userResponse);
+      console.log('✅ Returning user data:', userResponse);
       res.json(userResponse);
     } catch (error) {
-      console.error('Error in /api/user:', error);
+      console.error('❌ Error in /api/user:', error);
       res.status(500).json({ message: "Internal server error" });
     }
   });

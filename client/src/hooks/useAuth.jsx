@@ -21,6 +21,8 @@ export function AuthProvider({ children }) {
 
   const loginMutation = useMutation({
     mutationFn: async ({ username, password }) => {
+      console.log('🔵 Starting login mutation for:', username);
+      
       const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
@@ -30,17 +32,25 @@ export function AuthProvider({ children }) {
         credentials: 'include',
       });
 
+      console.log('🔵 Login response status:', response.status);
+      console.log('🔵 Login response headers:', Object.fromEntries(response.headers.entries()));
+
       if (!response.ok) {
         const error = await response.json();
+        console.log('❌ Login failed with error:', error);
         throw new Error(error.message || 'Credenziali non valide');
       }
 
-      return response.json();
+      const userData = await response.json();
+      console.log('✅ Login successful, user data:', userData);
+      return userData;
     },
     onSuccess: (user) => {
+      console.log('✅ Login mutation onSuccess, setting user data:', user);
       queryClient.setQueryData(["/api/user"], user);
     },
     onError: (error) => {
+      console.log('❌ Login mutation onError:', error);
       toast({
         title: "Login failed",
         description: error.message,

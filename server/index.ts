@@ -11,12 +11,16 @@ app.use(morgan("tiny"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Add session debugging middleware
+// Debug middleware to log all requests
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path} - Session ID: ${req.sessionID || 'none'}`);
-  console.log('Session:', req.session);
-  console.log('User:', req.user);
+  console.log(`\n=== ${req.method} ${req.path} ===`);
+  console.log('Session ID:', req.sessionID || 'none');
+  console.log('Session keys:', req.session ? Object.keys(req.session) : 'no session');
+  console.log('Session passport:', req.session?.passport);
+  console.log('User:', req.user ? `${req.user.username} (ID: ${req.user.id})` : 'none');
   console.log('IsAuthenticated:', req.isAuthenticated ? req.isAuthenticated() : 'function not available');
+  console.log('Cookie header:', req.headers.cookie ? 'present' : 'missing');
+  console.log('=================\n');
   next();
 });
 
