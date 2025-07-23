@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Badge } from "../components/ui/badge";
+import { Progress } from "../components/ui/progress";
+import { Skeleton } from "../components/ui/skeleton";
 import { 
   Building2, 
   Factory, 
@@ -14,9 +14,9 @@ import {
   Activity
 } from "lucide-react";
 import { useEffect } from "react";
-import { useAuth } from "@/hooks/useAuth";
-import { useToast } from "@/hooks/use-toast";
-import { isUnauthorizedError } from "@/lib/authUtils";
+import { useAuth } from "../hooks/useAuth";
+import { useToast } from "../hooks/use-toast";
+import { isUnauthorizedError } from "../lib/authUtils";
 
 export function Dashboard() {
   const { toast } = useToast();
@@ -92,7 +92,7 @@ export function Dashboard() {
         <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
         <p className="text-gray-600 mt-2">Overview of your company data and analytics</p>
       </div>
-      
+
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <Card className="hover:shadow-md transition-shadow">
@@ -114,7 +114,7 @@ export function Dashboard() {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card className="hover:shadow-md transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -134,7 +134,7 @@ export function Dashboard() {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card className="hover:shadow-md transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -154,7 +154,7 @@ export function Dashboard() {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card className="hover:shadow-md transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -173,7 +173,7 @@ export function Dashboard() {
           </CardContent>
         </Card>
       </div>
-      
+
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Sector Distribution */}
@@ -199,7 +199,7 @@ export function Dashboard() {
                     'bg-purple-500', 
                     'bg-blue-500'
                   ];
-                  
+
                   return (
                     <div key={sector.sector} className="flex items-center justify-between">
                       <div className="flex items-center">
@@ -219,7 +219,7 @@ export function Dashboard() {
             )}
           </CardContent>
         </Card>
-        
+
         {/* Recent Activity */}
         <Card>
           <CardHeader>
@@ -242,7 +242,7 @@ export function Dashboard() {
           </CardContent>
         </Card>
       </div>
-      
+
       {/* Recent Reports Table */}
       <Card>
         <CardHeader>
@@ -331,7 +331,7 @@ function DashboardSkeleton() {
         <Skeleton className="h-8 w-48 mb-2" />
         <Skeleton className="h-4 w-96" />
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {[...Array(4)].map((_, i) => (
           <Card key={i}>
@@ -341,7 +341,7 @@ function DashboardSkeleton() {
           </Card>
         ))}
       </div>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {[...Array(2)].map((_, i) => (
           <Card key={i}>

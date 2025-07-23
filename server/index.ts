@@ -63,6 +63,10 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const port = Number(process.env.PORT) || 3000;
+console.log('\n🚀 === SERVER STARTUP DEBUG ===');
+console.log('📍 Starting server on port:', port);
+console.log('🌍 Environment:', process.env.NODE_ENV || 'development');
+console.log('===============================\n');
 httpServer.listen(port, "0.0.0.0", () => {
   console.log(`${new Date().toLocaleTimeString()} [express] serving on port ${port}`);
 });

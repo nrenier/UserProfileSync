@@ -1,15 +1,14 @@
-import { useAuth } from "@/hooks/useAuth";
+import { Link, useLocation } from "wouter";
+import { cn } from "../../lib/utils";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { BarChart3, FileText, LogOut, User } from "lucide-react";
+import { useAuth } from "../../hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AvatarImage } from "@/components/ui/avatar";
 import { 
-  BarChart3, 
-  FileText, 
   Building2, 
   PieChart, 
-  LogOut,
-  User
 } from "lucide-react";
-import { Link, useLocation } from "wouter";
 
 export function Sidebar({ className }) {
   const { user, logoutMutation } = useAuth();
@@ -40,13 +39,13 @@ export function Sidebar({ className }) {
           </div>
           <h1 className="ml-3 text-xl font-bold text-gray-800">Analytics</h1>
         </div>
-        
+
         {/* Navigation */}
         <nav className="flex-1 px-4 py-6 space-y-2">
           {navigation.map((item) => {
             const isActive = location === item.href || 
               (item.href !== '/' && location.startsWith(item.href));
-            
+
             return (
               <Link key={item.name} href={item.href}>
                 <div className={`flex items-center px-4 py-3 rounded-lg transition-colors duration-200 cursor-pointer ${
@@ -61,7 +60,7 @@ export function Sidebar({ className }) {
             );
           })}
         </nav>
-        
+
         {/* User Profile */}
         <div className="px-4 py-4 border-t border-gray-200">
           <div className="flex items-center">

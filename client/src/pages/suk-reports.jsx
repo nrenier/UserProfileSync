@@ -1,14 +1,16 @@
+replit_final_file
 import { useState, useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "../hooks/useAuth";
+import { Button } from "../components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Badge } from "../components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
+import { Skeleton } from "../components/ui/skeleton";
+import { Download, FileText, Clock, CheckCircle, XCircle } from "lucide-react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/useAuth";
 import { isUnauthorizedError } from "@/lib/authUtils";
-import { apiRequest } from "@/lib/queryClient";
 import { 
   FileText, 
   Download, 
@@ -121,11 +123,11 @@ export function SUKReports() {
       const response = await fetch(`/api/reports/${reportId}/download`, {
         credentials: 'include'
       });
-      
+
       if (!response.ok) {
         throw new Error('Download failed');
       }
-      
+
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -136,7 +138,7 @@ export function SUKReports() {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-      
+
       toast({
         title: "Download Started",
         description: "Your report is being downloaded.",
@@ -187,7 +189,7 @@ export function SUKReports() {
         <h1 className="text-3xl font-bold text-gray-800">SUK Reports</h1>
         <p className="text-gray-600 mt-2">Generate and download company analysis reports</p>
       </div>
-      
+
       {/* Report Generation Form */}
       <Card className="mb-8">
         <CardHeader>
@@ -216,7 +218,7 @@ export function SUKReports() {
                 </Select>
               )}
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Report Type
@@ -234,7 +236,7 @@ export function SUKReports() {
               </Select>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <Button 
               onClick={handleGenerateReport}
@@ -248,7 +250,7 @@ export function SUKReports() {
               )}
               <span>Generate Report</span>
             </Button>
-            
+
             {generateReportMutation.isPending && (
               <div className="flex items-center text-gray-600">
                 <Loader2 className="h-4 w-4 animate-spin mr-2" />
@@ -258,7 +260,7 @@ export function SUKReports() {
           </div>
         </CardContent>
       </Card>
-      
+
       {/* Recent Reports */}
       <Card>
         <CardHeader>
@@ -368,13 +370,13 @@ function ReportsSkeleton() {
         <Skeleton className="h-8 w-48 mb-2" />
         <Skeleton className="h-4 w-96" />
       </div>
-      
+
       <Card className="mb-8">
         <CardContent className="p-6">
           <Skeleton className="h-32 w-full" />
         </CardContent>
       </Card>
-      
+
       <Card>
         <CardContent className="p-6">
           <Skeleton className="h-48 w-full" />

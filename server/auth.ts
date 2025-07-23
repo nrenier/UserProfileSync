@@ -162,30 +162,49 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/login", (req, res, next) => {
-    console.log('=== POST /api/login DEBUG ===');
-    console.log('Request body:', req.body);
-    console.log('Session ID before auth:', req.sessionID);
-    console.log('============================');
+    console.log('\n🔐 === POST /api/login COMPREHENSIVE DEBUG ===');
+    console.log('📍 Timestamp:', new Date().toISOString());
+    console.log('📝 Request body:', { username: req.body.username, password: '[HIDDEN]' });
+    console.log('🆔 Session ID before auth:', req.sessionID);
+    console.log('📝 Session before auth:', JSON.stringify(req.session, null, 2));
+    console.log('🍪 Cookie before auth:', req.headers.cookie);
+    console.log('🌐 Request origin:', req.headers.origin);
+    console.log('===============================================');
     
     passport.authenticate("local", (err: any, user: any, info: any) => {
+      console.log('\n🔍 === PASSPORT AUTHENTICATION RESULT ===');
+      
       if (err) {
         console.log('❌ Authentication error:', err);
+        console.log('❌ Error type:', typeof err);
+        console.log('❌ Error stack:', err.stack);
         return next(err);
       }
+      
       if (!user) {
-        console.log('❌ Invalid credentials');
+        console.log('❌ Invalid credentials - no user returned');
+        console.log('❌ Auth info:', info);
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
-      console.log('✅ User authenticated:', user.username);
+      console.log('✅ User authenticated successfully:', user.username);
+      console.log('✅ User data:', { id: user.id, username: user.username, role: user.role });
+      
       req.login(user, (err: any) => {
+        console.log('\n🔐 === REQ.LOGIN PROCESS ===');
+        
         if (err) {
-          console.log('❌ Login error:', err);
+          console.log('❌ req.login error:', err);
+          console.log('❌ Error type:', typeof err);
+          console.log('❌ Error stack:', err.stack);
           return next(err);
         }
         
-        console.log('✅ Login successful, session ID:', req.sessionID);
-        console.log('Session after login:', JSON.stringify(req.session, null, 2));
+        console.log('✅ req.login successful');
+        console.log('🆔 Session ID after login:', req.sessionID);
+        console.log('📝 Session after login:', JSON.stringify(req.session, null, 2));
+        console.log('👤 req.user after login:', req.user ? { id: req.user.id, username: req.user.username } : 'no user');
+        console.log('🔐 isAuthenticated after login:', req.isAuthenticated());
         
         const response = { 
           id: user.id, 
@@ -196,7 +215,8 @@ export function setupAuth(app: Express) {
           role: user.role 
         };
         
-        console.log('✅ Sending response:', response);
+        console.log('✅ Sending successful login response:', response);
+        console.log('=======================================\n');
         res.status(200).json(response);
       });
     })(req, res, next);
@@ -224,16 +244,29 @@ export function setupAuth(app: Express) {
   });
 
   app.get("/api/user", (req, res) => {
-    console.log('=== GET /api/user DEBUG ===');
-    console.log('Request origin:', req.headers.origin);
-    console.log('Request referer:', req.headers.referer);
-    console.log('Session ID:', req.sessionID);
-    console.log('Session object:', JSON.stringify(req.session, null, 2));
-    console.log('isAuthenticated():', req.isAuthenticated());
-    console.log('req.user:', req.user);
-    console.log('Cookie header:', req.headers.cookie);
-    console.log('User-Agent:', req.headers['user-agent']);
-    console.log('=========================');
+    console.log('\n🔍 === GET /api/user COMPREHENSIVE DEBUG ===');
+    console.log('📍 Timestamp:', new Date().toISOString());
+    console.log('🌐 Request URL:', req.url);
+    console.log('🌐 Request origin:', req.headers.origin);
+    console.log('🌐 Request referer:', req.headers.referer);
+    console.log('🆔 Session ID:', req.sessionID);
+    console.log('📝 Session exists:', !!req.session);
+    console.log('📝 Session keys:', req.session ? Object.keys(req.session) : 'no session');
+    console.log('📝 Session object:', JSON.stringify(req.session, null, 2));
+    console.log('🔐 isAuthenticated():', req.isAuthenticated());
+    console.log('👤 req.user exists:', !!req.user);
+    console.log('👤 req.user data:', req.user ? { id: req.user.id, username: req.user.username, role: req.user.role } : 'no user');
+    console.log('🍪 Cookie header present:', !!req.headers.cookie);
+    console.log('🍪 Cookie header:', req.headers.cookie);
+    console.log('🔧 User-Agent:', req.headers['user-agent']);
+    
+    // Additional session debugging
+    if (req.session) {
+      console.log('📝 Session passport data:', req.session.passport);
+      console.log('📝 Session cookie settings:', req.session.cookie);
+    }
+    
+    console.log('============================================\n');
     
     if (!req.isAuthenticated() || !req.user) {
       console.log('❌ User not authenticated, returning 401');
