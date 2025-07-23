@@ -225,6 +225,8 @@ export function setupAuth(app: Express) {
 
   app.get("/api/user", (req, res) => {
     console.log('=== GET /api/user DEBUG ===');
+    console.log('Request origin:', req.headers.origin);
+    console.log('Request referer:', req.headers.referer);
     console.log('Session ID:', req.sessionID);
     console.log('Session object:', JSON.stringify(req.session, null, 2));
     console.log('isAuthenticated():', req.isAuthenticated());

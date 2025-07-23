@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
     mutationFn: async ({ username, password }) => {
       console.log('🔵 Starting login mutation for:', username);
       
-      const response = await fetch('/api/login', {
+      const response = await fetch(`${window.location.protocol}//${window.location.hostname}:5000/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

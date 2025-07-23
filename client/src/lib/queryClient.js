@@ -41,6 +41,8 @@ const fetchWithCredentials = async (url, options = {}) => {
   return response.text();
 };
 
+const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:5000`;
+
 // Create QueryClient with custom fetch
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -69,12 +71,30 @@ export const queryClient = new QueryClient({
 export const getQueryFn = (options = {}) => {
   return async ({ queryKey }) => {
     const [url] = queryKey;
-    try {
-      return await fetchWithCredentials(url);
-    } catch (error) {
-      if (options.on401 === 'returnNull' && error.message.includes('401')) {
+
+    if (!url) {
+      throw new Error(`Invalid query key: ${queryKey}`);
+    }
+
+    const fullUrl = url.startsWith('/api/') ? `${API_BASE_URL}${url}` : url;
+    console.log('🔵 Making API request to:', fullUrl);
+
+    const response = await fetch(fullUrl, {
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      if (options.on401 === 'returnNull' && response.status === 401) {
         return null;
       }
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    try {
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Failed to parse JSON:', error);
       throw error;
     }
   };
@@ -82,19 +102,24 @@ export const getQueryFn = (options = {}) => {
 
 // API request helper function
 export const apiRequest = async (method, url, data) => {
+  const fullUrl = url.startsWith('/api/') ? `${API_BASE_URL}${url}` : url;
+  console.log('🔵 Making API request to:', fullUrl);
+
   const options = {
     method,
+    credentials: "include",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    credentials: 'include',
   };
 
   if (data) {
     options.body = JSON.stringify(data);
   }
 
-  return fetch(url, options);
+  const response = await fetch(fullUrl, options);
+
+  return response;
 };
 
 export { fetchWithCredentials };

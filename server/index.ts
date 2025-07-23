@@ -1,9 +1,22 @@
 import express from "express";
 import morgan from "morgan";
 import compression from "compression";
+import cors from "cors";
 import { registerRoutes } from "./routes";
 
 const app = express();
+
+// CORS configuration
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://0.0.0.0:3000'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
+}));
 
 // Basic middleware
 app.use(compression());
