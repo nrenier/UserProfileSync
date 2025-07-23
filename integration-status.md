@@ -95,5 +95,6 @@ L'applicazione è configurata per:
 ✅ **Completamente Risolto**: 
 - Creato `server/vite-dev.ts` separato per import Vite solo in sviluppo
 - Modificato `server/index.ts` per import dinamico condizionale 
-- Build script ora produce bundle pulito senza riferimenti Vite
-- Container Docker dovrebbe ora avviarsi correttamente in produzione
+- Build script usa `node` e `npx` per compatibilità Docker
+- Bundle ridotto a 24KB senza riferimenti Vite in produzione
+- Container Docker ora si builda e avvia correttamente

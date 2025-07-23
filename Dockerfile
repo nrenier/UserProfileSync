@@ -16,8 +16,8 @@ COPY . .
 # Create uploads directory
 RUN mkdir -p uploads
 
-# Build the application using custom script
-RUN tsx build-scripts.js
+# Build the application
+RUN npm run build
 
 # Remove dev dependencies after build to reduce image size
 RUN npm ci --only=production && npm cache clean --force
