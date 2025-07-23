@@ -45,14 +45,14 @@ export default function Sidebar({ className }) {
             
             return (
               <Link key={item.name} href={item.href}>
-                <a className={`flex items-center px-4 py-3 rounded-lg transition-colors duration-200 ${
+                <div className={`flex items-center px-4 py-3 rounded-lg transition-colors duration-200 cursor-pointer ${
                   isActive 
                     ? 'text-primary bg-primary/10 font-medium' 
                     : 'text-gray-600 hover:text-primary hover:bg-gray-50'
                 }`}>
                   <item.icon className="h-5 w-5" />
                   <span className="ml-3">{item.name}</span>
-                </a>
+                </div>
               </Link>
             );
           })}
