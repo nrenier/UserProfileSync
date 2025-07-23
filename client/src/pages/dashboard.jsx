@@ -18,7 +18,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
 
-export default function Dashboard() {
+export function Dashboard() {
   const { toast } = useToast();
   const { isAuthenticated, isLoading: authLoading } = useAuth();
 

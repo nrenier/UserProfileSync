@@ -18,7 +18,7 @@ import {
   CheckCircle
 } from "lucide-react";
 
-export default function SUKReports() {
+export function SUKReports() {
   const [selectedCompany, setSelectedCompany] = useState("");
   const [reportType, setReportType] = useState("standard");
   const { toast } = useToast();

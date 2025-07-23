@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { BarChart3, Building2, FileText, Shield } from "lucide-react";
 import { useLocation } from "wouter";
 
-export default function Landing() {
+export function Landing() {
   const [, setLocation] = useLocation();
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">

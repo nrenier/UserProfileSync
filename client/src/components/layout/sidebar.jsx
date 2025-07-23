@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
-export default function Sidebar({ className }) {
+export function Sidebar({ className }) {
   const { user, logoutMutation } = useAuth();
   const [location] = useLocation();
 

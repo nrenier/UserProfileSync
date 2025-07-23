@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { AlertTriangle } from "lucide-react";
 import { Link } from "wouter";
 
-export default function NotFound() {
+export function NotFound() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
