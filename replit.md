@@ -64,10 +64,19 @@ The application follows a modern full-stack architecture with clear separation b
 
 ### Required Environment Variables
 - `DATABASE_URL`: PostgreSQL connection string (Neon serverless)
-- `SESSION_SECRET`: Session encryption key
-- `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD`: Neo4j connection details
-- `N8N_BASE_URL`, `N8N_API_KEY`: n8n workflow service credentials
+- `SESSION_SECRET`: Session encryption key (automatically provided by Replit)
+- `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD`: Neo4j connection details (loaded from .env file)
+- `N8N_BASE_URL`, `N8N_API_KEY`, `N8N_WORKFLOW_ID`: n8n workflow service credentials
 - `REPLIT_DOMAINS`, `ISSUER_URL`, `REPL_ID`: Replit OAuth configuration
+
+### Neo4j Query Implementation
+The application now uses the exact Cypher query provided by the user:
+```cypher
+MATCH (n:SUK) RETURN n.nome_azienda, n.settore, n.descrizione
+```
+- Neo4j authentication reads credentials from environment variables in .env file
+- Company data queries use the SUK node type as specified
+- Fallback data is provided when Neo4j is unavailable
 
 ### External Services
 - **Neon Database**: Serverless PostgreSQL hosting
