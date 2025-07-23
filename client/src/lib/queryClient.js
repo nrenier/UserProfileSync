@@ -4,9 +4,9 @@ import { QueryClient } from '@tanstack/react-query';
 const getApiBase = () => {
   if (typeof window === 'undefined') return '';
 
-  // In development, use the dev server port (5000)
+  // In development, use the dev server port (3000)
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    return `${window.location.protocol}//${window.location.hostname}:5000`;
+    return `${window.location.protocol}//${window.location.hostname}:3000`;
   }
 
   // In production, use the same origin
