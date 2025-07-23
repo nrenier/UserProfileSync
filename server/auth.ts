@@ -59,14 +59,16 @@ export function setupAuth(app: Express) {
   });
 
   const sessionSettings: session.SessionOptions = {
-    secret: process.env.SESSION_SECRET || 'fallback-secret-key',
+    secret: process.env.SESSION_SECRET || 'fallback-secret-key-development',
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
+    rolling: true,
     cookie: {
-      secure: process.env.NODE_ENV === 'production',
+      secure: false, // Disable for development
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      sameSite: 'lax'
     },
   };
 
@@ -90,25 +92,36 @@ export function setupAuth(app: Express) {
     }),
   );
 
-  passport.serializeUser((user, done) => done(null, user.id));
-  passport.deserializeUser(async (data: any, done) => {
+  passport.serializeUser((user, done) => {
+    console.log('Serializing user:', user.id);
+    done(null, user.id);
+  });
+  
+  passport.deserializeUser(async (id: any, done) => {
     try {
-      // Handle both number and object formats
+      console.log('Deserializing user ID:', id, 'Type:', typeof id);
+      
       let userId: number;
-      if (typeof data === 'object' && data.claims) {
-        // This is Replit auth data, extract user ID
-        userId = parseInt(data.claims.sub);
-      } else if (typeof data === 'number') {
-        userId = data;
-      } else if (typeof data === 'string') {
-        userId = parseInt(data);
+      if (typeof id === 'number') {
+        userId = id;
+      } else if (typeof id === 'string') {
+        userId = parseInt(id);
+        if (isNaN(userId)) {
+          return done(new Error('Invalid user ID format'));
+        }
       } else {
-        return done(new Error('Invalid session data'));
+        return done(new Error('Invalid session data type'));
       }
       
       const user = await storage.getUser(userId);
+      if (!user) {
+        return done(null, false);
+      }
+      
+      console.log('Successfully deserialized user:', user.username);
       done(null, user);
     } catch (error) {
+      console.error('Error in deserializeUser:', error);
       done(error);
     }
   });
@@ -181,16 +194,31 @@ export function setupAuth(app: Express) {
   });
 
   app.get("/api/user", (req, res) => {
-    if (!req.isAuthenticated()) return res.sendStatus(401);
-    const user = req.user as SelectUser;
-    res.json({ 
-      id: user.id, 
-      username: user.username, 
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      role: user.role 
-    });
+    console.log('GET /api/user - isAuthenticated:', req.isAuthenticated());
+    console.log('GET /api/user - user:', req.user);
+    
+    if (!req.isAuthenticated() || !req.user) {
+      console.log('User not authenticated, returning 401');
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+    
+    try {
+      const user = req.user as SelectUser;
+      const userResponse = { 
+        id: user.id, 
+        username: user.username, 
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role 
+      };
+      
+      console.log('Returning user data:', userResponse);
+      res.json(userResponse);
+    } catch (error) {
+      console.error('Error in /api/user:', error);
+      res.status(500).json({ message: "Internal server error" });
+    }
   });
 }
 

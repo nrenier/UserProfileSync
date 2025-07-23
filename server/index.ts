@@ -11,6 +11,15 @@ app.use(morgan("tiny"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Add session debugging middleware
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} - Session ID: ${req.sessionID || 'none'}`);
+  console.log('Session:', req.session);
+  console.log('User:', req.user);
+  console.log('IsAuthenticated:', req.isAuthenticated ? req.isAuthenticated() : 'function not available');
+  next();
+});
+
 // Register routes (includes auth setup)
 const httpServer = await registerRoutes(app);
 

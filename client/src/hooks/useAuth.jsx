@@ -4,7 +4,7 @@ import {
   useMutation,
 } from "@tanstack/react-query";
 import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "./use-toast";
 
 export const AuthContext = createContext(null);
 
