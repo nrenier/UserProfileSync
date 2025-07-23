@@ -91,9 +91,22 @@ export function setupAuth(app: Express) {
   );
 
   passport.serializeUser((user, done) => done(null, user.id));
-  passport.deserializeUser(async (id: number, done) => {
+  passport.deserializeUser(async (data: any, done) => {
     try {
-      const user = await storage.getUser(id);
+      // Handle both number and object formats
+      let userId: number;
+      if (typeof data === 'object' && data.claims) {
+        // This is Replit auth data, extract user ID
+        userId = parseInt(data.claims.sub);
+      } else if (typeof data === 'number') {
+        userId = data;
+      } else if (typeof data === 'string') {
+        userId = parseInt(data);
+      } else {
+        return done(new Error('Invalid session data'));
+      }
+      
+      const user = await storage.getUser(userId);
       done(null, user);
     } catch (error) {
       done(error);
