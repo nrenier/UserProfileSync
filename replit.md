@@ -77,6 +77,13 @@ MATCH (n:SUK) RETURN n.nome_azienda, n.settore, n.descrizione
 - Neo4j authentication reads credentials from environment variables in .env file
 - Company data queries use the SUK node type as specified
 - Fallback data is provided when Neo4j is unavailable
+- Integration with existing Docker containers via localhost ports
+
+### Service Integration Status
+- **Neo4j**: Configured to connect to existing Docker container on port 7687
+- **n8n**: Configured to connect to existing Docker container on port 5678
+- **Scripts**: Provided start-services.sh and check-services.js for container management
+- **Documentation**: README-services.md contains integration guide and troubleshooting
 
 ### External Services
 - **Neon Database**: Serverless PostgreSQL hosting

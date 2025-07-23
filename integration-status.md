@@ -1,0 +1,72 @@
+# Status Integrazione Neo4j e n8n
+
+## Configurazione Completata ✅
+
+### File .env Aggiornato
+- `NEO4J_URI=bolt://localhost:7687`
+- `NEO4J_USERNAME=neo4j`
+- `NEO4J_PASSWORD=password123`
+- `N8N_BASE_URL=http://localhost:5678`
+- `N8N_API_KEY=your-n8n-api-key-here`
+- `N8N_WORKFLOW_ID=your-workflow-id-here`
+
+### Query Neo4j Implementata
+```cypher
+MATCH (n:SUK) RETURN n.nome_azienda, n.settore, n.descrizione
+```
+
+### Servizi Backend Aggiornati
+- `server/services/neo4j.ts`: Legge credenziali da variabili d'ambiente
+- `server/services/n8n.ts`: Configurato per container Docker esistente
+- Dati di fallback disponibili quando i servizi non sono accessibili
+
+## Passaggi Successivi 📋
+
+### 1. Avviare i Container Docker
+Se i container non sono attivi:
+```bash
+# Opzione A: Container singoli
+docker start analytics_neo4j analytics_n8n
+
+# Opzione B: Docker Compose
+docker-compose up -d neo4j n8n
+
+# Opzione C: Script personalizzato
+./start-services.sh
+```
+
+### 2. Verificare Connessioni
+```bash
+# Controlla se i servizi sono accessibili
+tsx check-services.js
+```
+
+### 3. Configurare n8n
+1. Accedi a http://localhost:5678
+2. Crea un workflow per generazione PDF
+3. Genera API key nelle impostazioni
+4. Aggiorna `.env` con le credenziali reali
+
+### 4. Popolare Neo4j con Dati SUK
+```cypher
+CREATE (s:SUK {
+  nome_azienda: "Azienda Example",
+  settore: "Manufacturing", 
+  descrizione: "Descrizione dell'azienda"
+})
+```
+
+## Test di Funzionamento
+
+L'applicazione è configurata per:
+- ✅ Connettersi automaticamente ai container esistenti
+- ✅ Utilizzare la query SUK esatta fornita
+- ✅ Funzionare con dati di fallback se i servizi non sono disponibili
+- ✅ Mostrare errori di connessione nei log per debugging
+
+## File Creati
+
+- `start-services.sh`: Script per avviare i container
+- `check-services.js`: Script per verificare le connessioni
+- `README-services.md`: Guida completa all'integrazione
+- `integration-status.md`: Questo file di stato
