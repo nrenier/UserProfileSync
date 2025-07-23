@@ -44,10 +44,10 @@ services:
       N8N_BASE_URL: http://host.docker.internal:5678
       N8N_API_KEY: your-n8n-api-key-here
       N8N_WORKFLOW_ID: your-workflow-id-here
-      SESSION_SECRET: your-very-secure-session-secret-here
-      REPLIT_DOMAINS: localhost
+      SESSION_SECRET: docker-session-secret-12345
+      REPLIT_DOMAINS: localhost:3000
       ISSUER_URL: https://replit.com/oidc
-      REPL_ID: your-repl-id-here
+      REPL_ID: placeholder-repl-id
     ports:
       - "3000:3000"
     depends_on:
