@@ -82,5 +82,11 @@ L'applicazione è configurata per:
 
 ### Dockerfile Aggiornato
 - Installa tutte le dipendenze con `npm ci` (non solo production)
-- Esegue il build con Vite disponibile
+- Esegue il build con script personalizzato che esclude Vite dal bundle server
+- Usa import dinamico di Vite solo in sviluppo
 - Rimuove le dipendenze di sviluppo dopo il build per ottimizzare l'immagine
+
+### Script di Build Personalizzato
+- `build-scripts.js`: Build separato per client e server con esclusioni corrette
+- Esclude Vite, plugin Vite, e altre dipendenze di sviluppo dal bundle server
+- Risolve ERR_MODULE_NOT_FOUND per Vite in produzione
