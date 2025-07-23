@@ -1,0 +1,93 @@
+analytics_app  | Connected to Neo4j with environment variables
+analytics_app  | Error initializing admin user: ErrorEvent {
+analytics_app  |   [Symbol(kTarget)]: WebSocket {
+analytics_app  |     _events: [Object: null prototype] {
+analytics_app  |       error: [Function],
+analytics_app  |       message: [Function],
+analytics_app  |       close: [Function],
+analytics_app  |       open: [Function]
+analytics_app  |     },
+analytics_app  |     _eventsCount: 4,
+analytics_app  |     _maxListeners: undefined,
+analytics_app  |     _binaryType: 'arraybuffer',
+analytics_app  |     _closeCode: 1006,
+analytics_app  |     _closeFrameReceived: false,
+analytics_app  |     _closeFrameSent: false,
+analytics_app  |     _closeMessage: <Buffer >,
+analytics_app  |     _closeTimer: null,
+analytics_app  |     _errorEmitted: true,
+analytics_app  |     _extensions: {},
+analytics_app  |     _paused: false,
+analytics_app  |     _protocol: '',
+analytics_app  |     _readyState: 3,
+analytics_app  |     _receiver: null,
+analytics_app  |     _sender: null,
+analytics_app  |     _socket: null,
+analytics_app  |     _bufferedAmount: 0,
+analytics_app  |     _isServer: false,
+analytics_app  |     _redirects: 0,
+analytics_app  |     _autoPong: true,
+analytics_app  |     _url: 'wss://postgres/v2',
+analytics_app  |     _req: null,
+analytics_app  |     [Symbol(shapeMode)]: false,
+analytics_app  |     [Symbol(kCapture)]: false
+analytics_app  |   },
+analytics_app  |   [Symbol(kType)]: 'error',
+analytics_app  |   [Symbol(kError)]: Error: connect ECONNREFUSED 192.168.96.2:443
+analytics_app  |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+analytics_app  |     errno: -111,
+analytics_app  |     code: 'ECONNREFUSED',
+analytics_app  |     syscall: 'connect',
+analytics_app  |     address: '192.168.96.2',
+analytics_app  |     port: 443
+analytics_app  |   },
+analytics_app  |   [Symbol(kMessage)]: 'connect ECONNREFUSED 192.168.96.2:443'
+analytics_app  | }
+analytics_app  | 12:54:45 PM [express] serving on port 3000
+analytics_app  | 12:55:09 PM [express] GET /api/auth/user 200 in 1ms
+analytics_app  | 12:55:10 PM [express] GET /api/user 401 in 3ms
+analytics_app  | Registration error: ErrorEvent {
+analytics_app  |   [Symbol(kTarget)]: WebSocket {
+analytics_app  |     _events: [Object: null prototype] {
+analytics_app  |       error: [Function],
+analytics_app  |       message: [Function],
+analytics_app  |       close: [Function],
+analytics_app  |       open: [Function]
+analytics_app  |     },
+analytics_app  |     _eventsCount: 4,
+analytics_app  |     _maxListeners: undefined,
+analytics_app  |     _binaryType: 'arraybuffer',
+analytics_app  |     _closeCode: 1006,
+analytics_app  |     _closeFrameReceived: false,
+analytics_app  |     _closeFrameSent: false,
+analytics_app  |     _closeMessage: <Buffer >,
+analytics_app  | 12:55:46 PM [express] POST /api/register 500 in 5ms :: {"message":"Internal server error"}
+analytics_app  |     _closeTimer: null,
+analytics_app  |     _errorEmitted: true,
+analytics_app  |     _extensions: {},
+analytics_app  |     _paused: false,
+analytics_app  |     _protocol: '',
+analytics_app  |     _readyState: 3,
+analytics_app  |     _receiver: null,
+analytics_app  |     _sender: null,
+analytics_app  |     _socket: null,
+analytics_app  |     _bufferedAmount: 0,
+analytics_app  |     _isServer: false,
+analytics_app  |     _redirects: 0,
+analytics_app  |     _autoPong: true,
+analytics_app  |     _url: 'wss://postgres/v2',
+analytics_app  |     _req: null,
+analytics_app  |     [Symbol(shapeMode)]: false,
+analytics_app  |     [Symbol(kCapture)]: false
+analytics_app  |   },
+analytics_app  |   [Symbol(kType)]: 'error',
+analytics_app  |   [Symbol(kError)]: Error: connect ECONNREFUSED 192.168.96.2:443
+analytics_app  |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+analytics_app  |     errno: -111,
+analytics_app  |     code: 'ECONNREFUSED',
+analytics_app  |     syscall: 'connect',
+analytics_app  |     address: '192.168.96.2',
+analytics_app  |     port: 443
+analytics_app  |   },
+analytics_app  |   [Symbol(kMessage)]: 'connect ECONNREFUSED 192.168.96.2:443'
+analytics_app  | }
