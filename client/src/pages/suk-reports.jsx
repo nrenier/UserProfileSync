@@ -7,18 +7,11 @@ import { Badge } from "../components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Skeleton } from "../components/ui/skeleton";
 import { Download, FileText, Clock, CheckCircle, XCircle } from "lucide-react";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { apiRequest, queryClient } from "../lib/queryClient";
-import { useToast } from "@/hooks/use-toast";
-import { isUnauthorizedError } from "@/lib/authUtils";
-import { 
-  FileText, 
-  Download, 
-  Clock, 
-  Loader2,
-  AlertCircle,
-  CheckCircle
-} from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "../lib/queryClient";
+import { useToast } from "../hooks/use-toast";
+import { isUnauthorizedError } from "../lib/authUtils";
+import { Loader2, AlertCircle } from "lucide-react";
 
 export function SUKReports() {
   const [selectedCompany, setSelectedCompany] = useState("");
